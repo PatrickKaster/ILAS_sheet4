@@ -45,7 +45,58 @@
 	
 			\begin{enumerate}[(i)]
 				\item done
-				\item dfdf		
+				\item 
+					\begin{description}
+						\item[Non-negative] because $|\cdot|$ is a norm.
+						\item[Identity of indiscernibles] 
+							\begin{align}
+								D_\Delta(S,S) &= |S\setminus S \cup S\setminus S| \\
+															&= | \emptyset	| = 0
+							\end{align}
+							and
+							Let $D_\Delta(A,B) = 0$ from that follows
+							\begin{align}
+								 0 &= |A\setminus B \cup B \setminus A| \\
+								 &= | A \setminus B| + | A \setminus B| & \text{because } (A \setminus B) \cap (B \setminus A) = \emptyset \label{leererschnitt} \\
+							\end{align}
+							and because $| \cdot |$ is positive follows $|A \setminus B| \geq 0$ and $|B\setminus A| \geq 0$ which implies
+							$|A \setminus B| = 0$ and $|B\setminus A| = 0$. From that follows $A \subset B$ and $B \subset A$ which implies $A=B$.
+						\item[Symmetry] $D_\Delta(A,B) = |A \setminus B \cup B \setminus A| = | B \setminus A \cup A \setminus B| = D_\Delta(B,A)$ because $\cup$ is commutative.
+						\item[triangle inequality]
+							Consider sets $A$, $B$ and $C$. Then
+							\begin{align}
+								A \setminus B = (A \setminus(B \cup C) )\cup ((A \cap C) \setminus B) \label{umformung}
+							\end{align}
+							and
+							\begin{align}
+								|(A \setminus(B \cup C) )\cup ((A \cap C) \setminus B)| = |(A \setminus(B \cup C) )| + | ((A \cap C) \setminus B)|  \label{gleichegroesze}
+							\end{align}
+							because all elements which get subtracted by $C$ in the first term get added again in the second.	
+
+							Then compute
+							$D_\Delta(A,B) + D_\Delta(B,C)$ 
+							\begin{align}
+								&= |A \setminus B \cup B \setminus A| + |B \setminus C \cup C \setminus B| \\
+								&= |A\setminus B| + | B \setminus A| + | B \setminus C| + |C \setminus B| & \text{ same as in \ref{leererschnitt}}\\
+								&= | A \setminus (B \cup C) \cup (A \cap C) \setminus B| 					  \\
+								&\qquad + | B \setminus ( A \cup C ) \cup (B \cap C) \setminus A | \\
+								&\qquad + | B \setminus (A \cup C)  \cup (B \cup A) \setminus C |  \\
+								&\qquad + | C \setminus(B \cup A) \cup (C \cap A) \setminus B|     &\text{ compare \ref{umformung}} \\
+								&= | A \setminus (B \cup C)       | + | (A \cap C) \setminus B| 					  \\
+								&\qquad + | B \setminus ( A \cup C ) | + | (B \cap C) \setminus A | \\
+								&\qquad + | B \setminus (A \cup C)   | + | (B \cup A) \setminus C |  \\
+								&\qquad + | C \setminus(B \cup A)    | + | (C \cap A) \setminus B| \text{ compare \ref{gleichegroesze}}\\
+								&\geq | A \setminus (B \cup C)       | 					  \\
+								&\qquad + | (B \cap C) \setminus A | \\
+								&\qquad + | (B \cup A) \setminus C |  \\
+								&\qquad + | C \setminus(B \cup A) | \\
+								& = | A \setminus (B \cup C) \cup (B \cup A) \setminus C |  \\
+								&\qquad + | C \setminus(B \cup A) \cup (B \cap C) \setminus A | & \text{ compare \ref{gleichegroesze}}\\
+								& = | A \setminus C | + | C \setminus A| \\
+								& = | A \setminus C \cup C \setminus A| \\
+								& = D_\Delta(A,C)
+							\end{align}
+					\end{description}
 			\end{enumerate}
 		\end{solution}
 
