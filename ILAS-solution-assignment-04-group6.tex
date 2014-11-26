@@ -1,0 +1,52 @@
+	% HMC Math dept HW template example
+	% v0.04 by Eric J. Malm, 10 Mar 2005
+	\documentclass[10pt,a4paper,boxed]{hmcpset}
+
+	% set 1-inch margins in the document
+	% \usepackage[margin=1in]{geometry}
+	\usepackage{enumerate}
+	\usepackage{tikz}
+	\usetikzlibrary{positioning}
+	\usepackage{pgfplots}
+	\usepackage{amsmath}
+	\usepackage{amsfonts}
+	\usepackage{amssymb}
+
+	% include this if you want to import graphics files with /includegraphics
+	\usepackage{graphicx}
+
+	\renewcommand*{\familydefault}{\sfdefault}
+	\newcommand{\vect}[1]{\mathbf{#1}}
+	\DeclareMathOperator{\gain}{Gain}
+	\DeclareMathOperator{\entropy}{H}
+	\DeclareMathOperator{\prob}{P}
+
+	\tikzset{node distance=2cm, inner/.style={draw,circle}, leaf/.style={draw,rectangle}}
+
+	% info for header block in upper right hand corner
+	\name{Group 6: Timm Behner, Philipp Bruckschen, Patrick Kaster, Markus Schwalb}
+	\class{MA-INF 4111 - Intelligent Learning and Analysis Systems: Machine Learning}
+	\assignment{Exercise Sheet 4}
+	% \duedate{09/03/2004}
+
+	\begin{document}
+
+		\begin{problem}[4. Distances]
+		\end{problem}
+		\begin{solution}
+			done. will write up in the evening
+	
+			For $\delta(x,y)$ to be a metric, we have to show:
+			\begin{enumerate}
+				\item $\delta(x,y)\geq 0, \delta(x,y)=0 \mbox{ iff } x=y$
+				\item $\delta(x,y)=\delta(y,x)$
+				\item $\delta(x,y) \leq \delta(x,z)+\delta(z,y)$
+			\end{enumerate}
+	
+			\begin{enumerate}[(i)]
+				\item done
+				\item dfdf		
+			\end{enumerate}
+		\end{solution}
+
+	\end{document}

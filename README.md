@@ -1,7 +1,7 @@
 Exercise 4
 ==========
 
-This is going to be the solution for exercise 2 of the
+This is going to be the solution for exercise 4 of the
 [Machine Learning Lecture][machine_learning] at the University of Bonn.
 
 Contributors:
