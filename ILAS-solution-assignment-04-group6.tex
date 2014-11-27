@@ -31,11 +31,42 @@
 	% \duedate{09/03/2004}
 
 	\begin{document}
+	
+		\begin{problem}[1. The Perceptron Algorithm]
+		\end{problem}
+		\begin{solution}
+			\todo[inline]{Please check my notation!}			
+			$\vec{w_i}=\vec{w_k}$ as stated in the task formulation and assume the training examples $\left(\vec{x}_{i+1},y_{i+1}\right),\ldots,\left(\vec{x}_{k},y_{k}\right)$ to be already learned. Without loss of generality let 
+			\[y_{i+1},\ldots,y_{j} \in \left\{ +1 \right\}\] and \[y_{j+1},\ldots,y_{k} \in \left\{ -1 \right\}.\] Then:
+			\begin{align*}
+				& \vec{w}_k = \vec{w}_i + \\
+				& \overbrace{\left( (\vec{x}_{i+1}, y_{i+1}) + \ldots + (\vec{x}_{j}, y_{j}) \right) + \left( (\vec{x}_{j+1},y_{j+1}) + \ldots + (\vec{x}_{k}, y_{k}) \right)}^{=0,\,\textrm{since}\, \vec{w}_k = \vec{w}_i}
+			\end{align*}
+			\begin{align}
+				\Rightarrow & \vec{x}_{i+1} + \ldots + \vec{x}_{j} = \vec{x}_{j+1} + \ldots + \vec{x}_{k} \label{eq:equal_examples}
+			\end{align}
+			
+			Assume $\vec{u}$ to be a solution to the learning problem, i.e. a weight vector for a perceptron that classifies correctly:
+			\begin{align*}
+				\left\langle \vec{u},\vec{x}_{i+t}\right\rangle = & \begin{cases}
+																		\geq0 & \textrm{if}\,t\in\left\{ i+1,\ldots,j\right\} \\
+																		   <0 & \textrm{if}\,t\in\left\{ j+1,\ldots,k\right\} 
+																	\end{cases}
+			\end{align*}
+			Implying
+			\begin{align*}
+				\left\langle \vec{u},\vec{x}_{i+1} + \ldots + \vec{x}_{j}\right\rangle & \geq0 \\
+				\left\langle \vec{u},\vec{x}_{j+1} + \ldots + \vec{x}_{k}\right\rangle & < 0
+			\end{align*}
+			in contradiction to (\ref{eq:equal_examples}). Thus the perceptron learning algorithm will loop over the same data infinitely and will never converge.
+			
+			
+		\end{solution}		
 
 		\begin{problem}[2. Backpropagation with the Hyperbolic Tangent Function]
 		\end{problem}
 		\begin{solution}
-			Since $(tanh(x))' = 1-tanh(x)^2$, the weight update rules become: \todo{"Do you want to know more?" - Starship Troopers ;-)}
+			Since $(tanh(x))' = 1-tanh(x)^2$, the weight update rules become:
 			\begin{alignat*}{1}
 				\delta_k \leftarrow & \left( 1-o_k^2 \right) \left( t_k - o_k \right) \\
 				\delta_h \leftarrow & \left( 1-o_h^2 \right) \sum_{k \in \textrm{outputs}} w_{h,k} \delta_k \\
@@ -85,7 +116,7 @@
 															&= | \emptyset	| = 0
 							\end{align}
 							and
-							Let $D_\Delta(A,B) = 0$ from that follows
+							Let $D_\Delta(A,B) = 0$ from that follows \todo{Do we need these equations to be numbered?}
 							\begin{align}
 								 0 &= |A\setminus B \cup B \setminus A| \\
 								 &= | A \setminus B| + | A \setminus B| & \text{because } (A \setminus B) \cap (B \setminus A) = \emptyset \label{leererschnitt} \\
@@ -93,42 +124,7 @@
 							and because $| \cdot |$ is positive follows $|A \setminus B| \geq 0$ and $|B\setminus A| \geq 0$ which implies
 							$|A \setminus B| = 0$ and $|B\setminus A| = 0$. From that follows $A \subset B$ and $B \subset A$ which implies $A=B$.
 						\item[Symmetry] $D_\Delta(A,B) = |A \setminus B \cup B \setminus A| = | B \setminus A \cup A \setminus B| = D_\Delta(B,A)$ because $\cup$ is commutative.
-						\item[triangle inequality]
-							Consider sets $A$, $B$ and $C$. Then
-							\begin{align}
-								A \setminus B = (A \setminus(B \cup C) )\cup ((A \cap C) \setminus B) \label{umformung}
-							\end{align}
-							and
-							\begin{align}
-								|(A \setminus(B \cup C) )\cup ((A \cap C) \setminus B)| = |(A \setminus(B \cup C) )| + | ((A \cap C) \setminus B)|  \label{gleichegroesze}
-							\end{align}
-							because all elements which get subtracted by $C$ in the first term get added again in the second.	
-
-							Then compute
-							$D_\Delta(A,B) + D_\Delta(B,C)$ 
-							\begin{align}
-								&= |A \setminus B \cup B \setminus A| + |B \setminus C \cup C \setminus B| \\
-								&= |A\setminus B| + | B \setminus A| + | B \setminus C| + |C \setminus B| & \text{ same as in \ref{leererschnitt}}\\
-								&= | A \setminus (B \cup C) \cup (A \cap C) \setminus B| 					  \\
-								&\qquad + | B \setminus ( A \cup C ) \cup (B \cap C) \setminus A | \\
-								&\qquad + | B \setminus (A \cup C)  \cup (B \cup A) \setminus C |  \\
-								&\qquad + | C \setminus(B \cup A) \cup (C \cap A) \setminus B|     &\text{ compare \ref{umformung}} \\
-								&= | A \setminus (B \cup C)       | + | (A \cap C) \setminus B| 					  \\
-								&\qquad + | B \setminus ( A \cup C ) | + | (B \cap C) \setminus A | \\
-								&\qquad + | B \setminus (A \cup C)   | + | (B \cup A) \setminus C |  \\
-								&\qquad + | C \setminus(B \cup A)    | + | (C \cap A) \setminus B| \text{ compare \ref{gleichegroesze}}\\
-								&\geq | A \setminus (B \cup C)       | 					  \\
-								&\qquad + | (B \cap C) \setminus A | \\
-								&\qquad + | (B \cup A) \setminus C |  \\
-								&\qquad + | C \setminus(B \cup A) | \\
-								& = | A \setminus (B \cup C) \cup (B \cup A) \setminus C |  \\
-								&\qquad + | C \setminus(B \cup A) \cup (B \cap C) \setminus A | & \text{ compare \ref{gleichegroesze}}\\
-								& = | A \setminus C | + | C \setminus A| \\
-								& = | A \setminus C \cup C \setminus A| \\
-								& = D_\Delta(A,C)
-							\end{align}
-
-							\todo{I did it likes this: wrong?}							
+						\item[triangle inequality]							
 							Consider sets $A$, $B$ and $C$ and distinguish two cases:\\
 							Let $x\in A \setminus C$. Then either
 							\begin{enumerate}
@@ -140,14 +136,14 @@
 								\item $x \notin B \Rightarrow x \in C \setminus B$ or
 								\item $x \in B \Rightarrow x \in B \setminus A$.
 							\end{enumerate}
-							\begin{align}
+							\begin{align*}
 								\Rightarrow (A \Delta B) \cup (B \Delta C) &= (A \setminus B) \cup (B \setminus A) \cup (B \setminus C ) \cup (C \setminus B)  \\
 								&\supset (A \setminus C) \cup (C \setminus A)  \\
 								&=  A \Delta C  \\
-							\end{align}
-							\begin{align}
+							\end{align*}
+							\begin{align*}
 								\Rightarrow  \left\vert A \Delta C \right\vert &\leq \left\vert (A \Delta B) \right\vert + \left\vert (B \Delta C) \right\vert
-							\end{align}
+							\end{align*}
 					\end{description}
 			\end{enumerate}
 		\end{solution}
