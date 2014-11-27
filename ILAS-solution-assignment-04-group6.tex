@@ -5,6 +5,7 @@
 	% set 1-inch margins in the document
 	% \usepackage[margin=1in]{geometry}
 	\usepackage{enumerate}
+	\usepackage{todonotes}
 	\usepackage{tikz}
 	\usetikzlibrary{positioning}
 	\usepackage{pgfplots}
@@ -31,20 +32,50 @@
 
 	\begin{document}
 
+		\begin{problem}[2. Backpropagation with the Hyperbolic Tangent Function]
+		\end{problem}
+		\begin{solution}
+			Since $(tanh(x))' = 1-tanh(x)^2$, the weight update rules become: \todo{"Do you want to know more?" - Starship Troopers ;-)}
+			\begin{alignat*}{1}
+				\delta_k \leftarrow & \left( 1-o_k^2 \right) \left( t_k - o_k \right) \\
+				\delta_h \leftarrow & \left( 1-o_h^2 \right) \sum_{k \in \textrm{outputs}} w_{h,k} \delta_k \\
+				w_{i,j} \leftarrow & w_{i,j} + \Delta w_{i,j},\,\mbox{where } \delta w_{i,j} = \eta \delta_j x_{i,j}
+			\end{alignat*}
+		\end{solution}		
+		
+
 		\begin{problem}[4. Distances]
 		\end{problem}
 		\begin{solution}
-			done. will write up in the evening
-	
 			For $\delta(x,y)$ to be a metric, we have to show:
-			\begin{enumerate}
-				\item $\delta(x,y)\geq 0, \delta(x,y)=0 \mbox{ iff } x=y$
-				\item $\delta(x,y)=\delta(y,x)$
-				\item $\delta(x,y) \leq \delta(x,z)+\delta(z,y)$
-			\end{enumerate}
+			\begin{description}
+				\item[Non-negative] $\delta(x,y)\geq 0$
+				\item[Identity of indiscernibles] $\delta(x,y)=0 \mbox{ iff } x=y$
+				\item[Symmetry] $\delta(x,y)=\delta(y,x)$
+				\item[triangle inequality] $\delta(x,y) \leq \delta(x,z)+\delta(z,y)$
+			\end{description}
 	
 			\begin{enumerate}[(i)]
-				\item done
+				\item 
+					\begin{description}
+						\item[Non-negative] because $|\cdot|$ is a norm.
+						\item[Identity of indiscernibles] Cleary the Hamming distance sums to zero iff $x_r,x_s$ don't differ in more than one entry:\\ 
+															$D_{\textrm{Hamming}}=0 \Rightarrow  x_r=x_s$
+						\item[Symmetry] 
+							\begin{alignat*}{1}
+								 D_{\textrm{Hamming}}(x_{r},x_{s}) & =\sum_{j=1}^{m}\left|x_{rj}-x_{sj}\right| \\
+								 								 & =\sum_{j=1}^{m}\left|x_{sj}-x_{rj}\right|=D_{\textrm{Hamming}}(x_{s},x_{r})
+							\end{alignat*}
+						\item[triangle inequality]
+							\begin{align*}
+								\forall x_{r},x_{s},x_{t}:\\
+								D_{\textrm{Hamming}}(x_{r},x_{t}) & = \sum_{j=1}^{m}\left|x_{rj}-x_{tj}\right|\\
+																& = \sum_{j=1}^{m}\left|x_{rj}-x_{sj}+x_{sj}-x_{tj}\right|\\
+																& \leq\sum_{j=1}^{m}\left(\left|x_{rj}-x_{sj}\right\vert +\left\vert x_{sj}-x_{tj}\right|\right)\\
+																& = \sum_{j=1}^{m}\left|x_{rj}-x_{sj}\right\vert +\sum_{j=1}^{m}\left\vert x_{sj}-x_{tj}\right|\\
+																& = D_{\textrm{Hamming}}(x_{r},x_{s})+D_{\textrm{Hamming}}(x_{s},x_{t})
+							\end{align*}
+					\end{description}
 				\item 
 					\begin{description}
 						\item[Non-negative] because $|\cdot|$ is a norm.
@@ -96,6 +127,23 @@
 								& = | A \setminus C \cup C \setminus A| \\
 								& = D_\Delta(A,C)
 							\end{align}
+
+							\todo{I did it likes this: wrong?}							
+							Consider sets $A$, $B$ and $C$ and distinguish two cases:\\
+							Let $x\in A \setminus C$. Then either
+							\begin{enumerate}
+								\item $x \notin B \Rightarrow x \in A \setminus B$ or
+								\item $x \in B \Rightarrow x \in B \setminus C$.
+							\end{enumerate}
+							Similarly: Let $x\in C \setminus A$. Then either
+							\begin{enumerate}
+								\item $x \notin B \Rightarrow x \in C \setminus B$ or
+								\item $x \in B \Rightarrow x \in B \setminus A$.
+							\end{enumerate}
+							\begin{align*}
+								\Rightarrow & A \Delta C \subset (A \Delta B) \cup (B \Delta C) \\
+								\Rightarrow & \left\vert A \Delta C \right\vert \leq \left\vert (A \Delta B) \right\vert + \left\vert (B \Delta C) \right\vert
+							\end{align*}
 					\end{description}
 			\end{enumerate}
 		\end{solution}
