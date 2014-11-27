@@ -140,10 +140,14 @@
 								\item $x \notin B \Rightarrow x \in C \setminus B$ or
 								\item $x \in B \Rightarrow x \in B \setminus A$.
 							\end{enumerate}
-							\begin{align*}
-								\Rightarrow & A \Delta C \subset (A \Delta B) \cup (B \Delta C) \\
-								\Rightarrow & \left\vert A \Delta C \right\vert \leq \left\vert (A \Delta B) \right\vert + \left\vert (B \Delta C) \right\vert
-							\end{align*}
+							\begin{align}
+								\Rightarrow (A \Delta B) \cup (B \Delta C) &= (A \setminus B) \cup (B \setminus A) \cup (B \setminus C ) \cup (C \setminus B)  \\
+								&\supset (A \setminus C) \cup (C \setminus A)  \\
+								&=  A \Delta C  \\
+							\end{align}
+							\begin{align}
+								\Rightarrow  \left\vert A \Delta C \right\vert &\leq \left\vert (A \Delta B) \right\vert + \left\vert (B \Delta C) \right\vert
+							\end{align}
 					\end{description}
 			\end{enumerate}
 		\end{solution}
