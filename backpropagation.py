@@ -1,7 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 
 import random
 import itertools
 import math
+from optparse import OptionParser
+
+parser = OptionParser()
+parser.add_option("-e", "--eta", dest="eta_value", help="size of steps", metavar="VALUE", type="float", default=0.01)
+parser.add_option("-m", "--maxiter", dest="max_iterations", help="maximum number of iterations", metavar="NUMBER", type="int", default=1000000)
+parser.add_option("-t", "--threshold", dest="iter_threshold", help="threshold of errors", metavar="VALUE", type="float", default=0)
+(options,args) = parser.parse_args()
 
 class Example:
     def __init__(self,input_values, outcome):
@@ -11,8 +18,9 @@ class Example:
     def __str__(self):
         return str(self.input_values) + " : " + str(self.outcome)
 
+random.seed(0)
 def small_random_value():
-    return round(random.uniform(-0.5,0.5),2)
+    return round(random.uniform(-1,1),2)
 
 class Neuron:
     def __init__(self,idx,predecessors=[],successors=[]):
@@ -131,11 +139,11 @@ class NeuronalNetwork:
 
 
 
-    def backward_propagation(self,examples,eta):
+    def backward_propagation(self,examples,eta,maxiter,threshold):
         descended = True
         delta = [0] * len(self.nodes)
         iteration = 0
-        while descended and iteration < 10000: 
+        while descended and iteration < maxiter: 
             descended = False
             iteration += 1
             for example in examples:
@@ -159,7 +167,7 @@ class NeuronalNetwork:
                     for idx in range(len(node.weights)):
                         delta_weight = eta * delta[node.successors[idx]] *  node.output_value
                         node.weights[idx] += delta_weight
-                        if delta_weight > 0:
+                        if delta_weight > threshold:
                             descended = True
 
 
@@ -188,14 +196,14 @@ def generate_examples(logical_func,n_args):
         examples.append(Example(arguments,logical_func(*arguments)))
     return examples
 
-
-nn = NeuronalNetwork(2,[2],1) 
-examples = generate_examples(xor,2)
-print(nn)
-nn.backward_propagation(examples,1)
-print(nn)
-for example in examples:
-    print(example)
-    nn.forward_propagation(example)
-    print(nn.output_nodes[0].output_value)
+if __name__ == "__main__":
+  nn = NeuronalNetwork(2,[2],1) 
+  examples = generate_examples(xor,2)
+  print(nn)
+  nn.backward_propagation(examples,options.eta_value,options.max_iterations,options.iter_threshold)
+  print(nn)
+  for example in examples:
+      print(example)
+      nn.forward_propagation(example)
+      print(nn.output_nodes[0].output_value)
 
