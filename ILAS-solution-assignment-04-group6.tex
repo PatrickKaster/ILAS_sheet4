@@ -35,7 +35,6 @@
 		\begin{problem}[1. The Perceptron Algorithm]
 		\end{problem}
 		\begin{solution}
-			\todo[inline]{Please check my notation!}			
 			$\vec{w_i}=\vec{w_k}$ as stated in the task formulation and assume the training examples $\left(\vec{x}_{i+1},y_{i+1}\right),\ldots,\left(\vec{x}_{k},y_{k}\right)$ to be already learned. Without loss of generality let 
 			\[y_{i+1},\ldots,y_{j} \in \left\{ +1 \right\}\] and \[y_{j+1},\ldots,y_{k} \in \left\{ -1 \right\}.\] Then:
 			\begin{align*}
@@ -78,8 +77,10 @@
 		\end{problem}
 		\begin{solution}
 			\begin{description}
-				\item[Structure] The network has a single hidden layer with two nodes, a
-					single output node and two input nodes.
+				\item[Structure] The network has a single hidden layer with three nodes
+					(two regular and one for bias value), a single output node and three
+					input nodes (again two for input and one for a bias value). Thus the
+					structure is the same as seen on slide 27 in Slides from 2014-11-14.
 				\item[Termination Criterion] The termination criterion is on either
 					100000 iterations or if none of the weights changed. These values can
 					be changed with the command line options \verb$-m$ and \verb$-t$
@@ -130,7 +131,7 @@
 															&= | \emptyset	| = 0
 							\end{align}
 							and
-							Let $D_\Delta(A,B) = 0$ from that follows \todo{Do we need these equations to be numbered? We need ALL the numbers :D}
+							Let $D_\Delta(A,B) = 0$ from that follows 
 							\begin{align}
 								 0 &= |A\setminus B \cup B \setminus A| \\
 								 &= | A \setminus B| + | A \setminus B| & \text{because } (A \setminus B) \cap (B \setminus A) = \emptyset \label{leererschnitt}
@@ -139,27 +140,7 @@
 							$|A \setminus B| = 0$ and $|B\setminus A| = 0$. From that follows $A \subset B$ and $B \subset A$ which implies $A=B$.
 						\item[Symmetry] $D_\Delta(A,B) = |A \setminus B \cup B \setminus A| = | B \setminus A \cup A \setminus B| = D_\Delta(B,A)$ because $\cup$ is commutative.
 						\item[triangle inequality]							
-							Consider sets $A$, $B$ and $C$ and distinguish two cases:\\
-							Let $x\in A \setminus C$. Then either
-							\begin{enumerate}
-								\item $x \notin B \Rightarrow x \in A \setminus B$ or
-								\item $x \in B \Rightarrow x \in B \setminus C$.
-							\end{enumerate}
-							Similarly: Let $x\in C \setminus A$. Then either
-							\begin{enumerate}
-								\item $x \notin B \Rightarrow x \in C \setminus B$ or
-								\item $x \in B \Rightarrow x \in B \setminus A$.
-							\end{enumerate}
-							\begin{align*}
-								\Rightarrow (A \Delta B) \cup (B \Delta C) &= (A \setminus B) \cup (B \setminus A) \cup (B \setminus C ) \cup (C \setminus B)  \\
-								&\supset (A \setminus C) \cup (C \setminus A)  \\
-								&=  A \Delta C
-							\end{align*}
-							\begin{align*}
-								\Rightarrow  \left\vert A \Delta C \right\vert &\leq \left\vert (A \Delta B) \right\vert + \left\vert (B \Delta C) \right\vert
-							\end{align*}
-							
-							\todo{Alternate version of proof,maybe nicer without the cases}
+							Consider sets $A$, $B$ and $C$ 
 							\begin{align}
 								D_\Delta(A,B) + D_\Delta(B,C) &= |A| + |B| - 2|A \cap B| \notag\\ & \qquad + |B| + |C| - 2 |B \cap C| \\
 								& = |A| + |C| \notag \\ & \qquad + 2 ( -( |A \cap B| + |B \cap C| ) + |B|) \\
@@ -168,7 +149,6 @@
 								& \geq |A| + |C| - |A \cap C| \\
 							  & = D_\Delta(A,C)
 							\end{align}
-
 					\end{description}
 			\end{enumerate}
 		\end{solution}
