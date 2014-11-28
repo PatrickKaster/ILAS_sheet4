@@ -20,17 +20,18 @@ class Example:
 
 random.seed(0)
 def small_random_value():
-    return round(random.uniform(-1,1),2)
+    return round(random.uniform(-2,2),2)
 
 class Neuron:
     def __init__(self,idx,predecessors=[],successors=[]):
         self.idx            = idx
         self.is_input_node  = False
         self.is_output_node = False
+        self.bias_node      = False
         self.input_value    = 0
         self.output_value   = 0
         self.predecessors   = predecessors
-        self.successors     = []
+        self.successors     = successors
         self.weights        = []
 
     def initialize_weights(self):
@@ -53,13 +54,12 @@ class NeuronalNetwork:
         """ 
         hidden_nodes_desc expects a list of numbers. The number on the ith
         positions states the number of neurons in the ith layer.
-
-        I don't know yet if I really need the predecessors or not
         """
         self.nodes = []
         self.input_nodes  = []
         self.hidden_nodes = []
         self.output_nodes = []
+        self.bias_nodes_idx = []
         self.idx = 0
 
         # create input nodes
@@ -73,11 +73,15 @@ class NeuronalNetwork:
         self.layers = []
         for num in hidden_nodes_desc:
             new_layer = []
-            for i in range(num):
+            for i in range(num+1):
                 hidden_neuron = Neuron(self.idx)
                 self.idx += 1
                 new_layer.append(hidden_neuron)
                 self.hidden_nodes.append(hidden_neuron)
+                # mark the last node as bias node
+                if i == range(num):
+                  hidden_neuron.bias_node = True
+                  self.bias_nodes_ids.append(hidden_neuron.idx)
             self.layers.append(new_layer)
         self.nodes += self.hidden_nodes
 
@@ -100,7 +104,7 @@ class NeuronalNetwork:
                 node.successors = [ node.idx for node in following_layer ]
             for node in following_layer:
                 node.predecessors = [ node.idx for node in layer ]
-            
+
         # connect the nodes in the last hidden layer with the output nodes
         last_hidden_layer = self.layers[-1]
         for node in last_hidden_layer:
@@ -117,33 +121,38 @@ class NeuronalNetwork:
         for node in self.nodes:
             node.input_value = 0
             node.output_value = 0
+        for idx in self.bias_nodes_idx:
+          self.nodes[idx].output_value = 1
 
         # initialize output of input_nodes from the example
         for idx in range(len(self.input_nodes)):
             self.nodes[idx].output_value = example.input_values[idx]
 
-        # forward propagation
+        # forward propagation on input nodes
         for input_node in self.input_nodes:
             for idx, suc in enumerate(input_node.successors):
                 successor = self.nodes[suc]
                 successor.input_value += input_node.weights[idx] * input_node.output_value
 
+        # forward propagation on each hidden layer
         for layer in self.layers:
             for node in layer:
-                node.output_value = sigmoid(node.input_value)
+                if not node.idx in self.bias_nodes_idx:
+                    node.output_value = sigmoid(node.input_value)
                 for idx, suc in enumerate(node.successors):
                     self.nodes[suc].input_value += node.weights[idx] * node.output_value
 
+        # ouput computation on output nodes
         for node in self.output_nodes:
             node.output_value = sigmoid(node.input_value)
-
 
 
     def backward_propagation(self,examples,eta,maxiter,threshold):
         descended = True
         delta = [0] * len(self.nodes)
         iteration = 0
-        while descended and iteration < maxiter: 
+        # while termination criterion not fullfilled
+        while descended and iteration < maxiter:
             descended = False
             iteration += 1
             for example in examples:
@@ -186,18 +195,21 @@ class NeuronalNetwork:
         return ret_string
 
 
-def xor(a,b):
+# logical function to be learned
+def xor(x,a,b):
     return 1 if bool(a) != bool(b) else 0
 
 def generate_examples(logical_func,n_args):
     examples = []
     for x in itertools.product('01',repeat=n_args):
-        arguments = [int(i) for i in x]
+        # bias value
+        arguments = [1]
+        arguments += [int(i) for i in x]
         examples.append(Example(arguments,logical_func(*arguments)))
     return examples
 
 if __name__ == "__main__":
-  nn = NeuronalNetwork(2,[2],1) 
+  nn = NeuronalNetwork(3,[2],1)
   examples = generate_examples(xor,2)
   print(nn)
   nn.backward_propagation(examples,options.eta_value,options.max_iterations,options.iter_threshold)
