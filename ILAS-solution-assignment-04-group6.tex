@@ -73,6 +73,18 @@
 				w_{i,j} \leftarrow & w_{i,j} + \Delta w_{i,j},\,\mbox{where } \delta w_{i,j} = \eta \delta_j x_{i,j}
 			\end{alignat*}
 		\end{solution}		
+
+		\begin{problem}[3. Backpropagation for the XOR Function]
+			\begin{description}
+				\item[Structure] The network has a single hidden layer with two nodes, a
+					single output node and two input nodes.
+				\item[Termination Criterion] The termination criterion is on either
+					100000 iterations or if none of the weights changed. These values can
+					be changed with the command line options \verb$-m$ and \verb$-t$
+					respectively.
+				\item[Example output] See the file \verb$output.log$
+			\end{description}
+		\end{problem}
 		
 
 		\begin{problem}[4. Distances]
