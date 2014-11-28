@@ -116,10 +116,10 @@
 															&= | \emptyset	| = 0
 							\end{align}
 							and
-							Let $D_\Delta(A,B) = 0$ from that follows \todo{Do we need these equations to be numbered?}
+							Let $D_\Delta(A,B) = 0$ from that follows \todo{Do we need these equations to be numbered? We need ALL the numbers :D}
 							\begin{align}
 								 0 &= |A\setminus B \cup B \setminus A| \\
-								 &= | A \setminus B| + | A \setminus B| & \text{because } (A \setminus B) \cap (B \setminus A) = \emptyset \label{leererschnitt} \\
+								 &= | A \setminus B| + | A \setminus B| & \text{because } (A \setminus B) \cap (B \setminus A) = \emptyset \label{leererschnitt}
 							\end{align}
 							and because $| \cdot |$ is positive follows $|A \setminus B| \geq 0$ and $|B\setminus A| \geq 0$ which implies
 							$|A \setminus B| = 0$ and $|B\setminus A| = 0$. From that follows $A \subset B$ and $B \subset A$ which implies $A=B$.
@@ -139,11 +139,22 @@
 							\begin{align*}
 								\Rightarrow (A \Delta B) \cup (B \Delta C) &= (A \setminus B) \cup (B \setminus A) \cup (B \setminus C ) \cup (C \setminus B)  \\
 								&\supset (A \setminus C) \cup (C \setminus A)  \\
-								&=  A \Delta C  \\
+								&=  A \Delta C
 							\end{align*}
 							\begin{align*}
 								\Rightarrow  \left\vert A \Delta C \right\vert &\leq \left\vert (A \Delta B) \right\vert + \left\vert (B \Delta C) \right\vert
 							\end{align*}
+							
+							\todo{Alternate version of proof,maybe nicer without the cases}
+							\begin{align}
+								D_\Delta(A,B) + D_\Delta(B,C) &= |A| + |B| - 2|A \cap B| \notag\\ & \qquad + |B| + |C| - 2 |B \cap C| \\
+								& = |A| + |C| \notag \\ & \qquad + 2 ( -( |A \cap B| + |B \cap C| ) + |B|) \\
+								& \geq |A| + |C| \notag \\ & \qquad + 2 ( - (|B| + |A\cap B \cap C| ) + |B|) \\
+								& = |A| + |C| - 2 |A \cap B \cap C| \\
+								& \geq |A| + |C| - |A \cap C| \\
+							  & = D_\Delta(A,C)
+							\end{align}
+
 					\end{description}
 			\end{enumerate}
 		\end{solution}
