@@ -12,7 +12,7 @@ class Example:
         return str(self.input_values) + " : " + str(self.outcome)
 
 def small_random_value():
-    return round(random.uniform(0,0.3),2)
+    return round(random.uniform(-0.5,0.5),2)
 
 class Neuron:
     def __init__(self,idx,predecessors=[],successors=[]):
@@ -135,7 +135,7 @@ class NeuronalNetwork:
         descended = True
         delta = [0] * len(self.nodes)
         iteration = 0
-        while descended and iteration < 1000: 
+        while descended and iteration < 10000: 
             descended = False
             iteration += 1
             for example in examples:
@@ -151,15 +151,16 @@ class NeuronalNetwork:
                     # compute sum
                     sum_v = 0
                     for idx, suc in enumerate(node.successors):
-                        sum_v += delta[self.nodes[suc].idx]*node.weights[idx]
+                        sum_v += delta[suc]*node.weights[idx]
                     delta[node.idx] = node.output_value*(1-node.output_value)*sum_v
 
                 # Step 4 : update network weights
                 for node in self.nodes:
                     for idx in range(len(node.weights)):
-                        delta_weight = eta * delta[node.successors[idx]] * node.weights[idx]
+                        delta_weight = eta * delta[node.successors[idx]] *  node.output_value
                         node.weights[idx] += delta_weight
-                        descended = ( delta_weight != 0 )
+                        if delta_weight > 0:
+                            descended = True
 
 
     def __str__(self):
@@ -191,7 +192,7 @@ def generate_examples(logical_func,n_args):
 nn = NeuronalNetwork(2,[2],1) 
 examples = generate_examples(xor,2)
 print(nn)
-nn.backward_propagation(examples,0.5)
+nn.backward_propagation(examples,1)
 print(nn)
 for example in examples:
     print(example)
